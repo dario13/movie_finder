@@ -8,7 +8,7 @@ const SearchForm: React.FC<SearchFormProps> = (props) => {
   const [inputMovie, setInputMovie] = React.useState<string | null>();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInputMovie(event.target.value)
+    setInputMovie(event.target.value);
   };
 
   return (
@@ -22,14 +22,14 @@ const SearchForm: React.FC<SearchFormProps> = (props) => {
         <div className="field has-addons">
           <div className="control">
             <input
-              className="input"
+              className="input is-large"
               onChange={handleChange}
               type="text"
               placeholder="Find a movie"
             />
           </div>
           <div className="control">
-            <button className="button is-info">Search</button>
+            <button className="button is-info is-large">Search</button>
           </div>
         </div>
       </form>

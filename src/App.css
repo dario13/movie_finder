@@ -3,6 +3,10 @@
   text-align: center;
 }
 
+.main-title {
+  font-size: 5em;
+}
+
 .SearchForm-wrapper {
   display: flex;
   justify-content: center;
@@ -11,6 +15,17 @@
 .PrintResults-wrapper {
   padding-top: 36px;
 }
+
+.columns.is-vcentered {
+  margin-top: 40vh;
+  margin-left: 25vw;
+  margin-right: 25vw;
+}
+
+/*
+.card {
+  color: red;
+}*/
 
 /*
 .MoviesList {
@@ -40,41 +55,20 @@
   padding-top: 30px;
 }
 
-.image-card{
+.image-card {
   margin: auto;
   width: 50%;
 }
 
-.flip-scale-up-hor {
-	-webkit-animation: flip-scale-up-hor 0.5s linear;
-	        animation: flip-scale-up-hor 0.5s linear;
+.slide-fwd-center {
+  animation: slide-fwd-center 0.85s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }
 
-@-webkit-keyframes flip-scale-up-hor {
+@keyframes slide-fwd-center {
   0% {
-    -webkit-transform: scale(1) rotateX(0);
-            transform: scale(1) rotateX(0);
-  }
-  50% {
-    -webkit-transform: scale(2.5) rotateX(-90deg);
-            transform: scale(2.5) rotateX(-90deg);
+    transform: translateZ(0);
   }
   100% {
-    -webkit-transform: scale(1) rotateX(-180deg);
-            transform: scale(1) rotateX(-180deg);
-  }
-}
-@keyframes flip-scale-up-hor {
-  0% {
-    -webkit-transform: scale(1) rotateX(0);
-            transform: scale(1) rotateX(0);
-  }
-  50% {
-    -webkit-transform: scale(2.5) rotateX(-90deg);
-            transform: scale(2.5) rotateX(-90deg);
-  }
-  100% {
-    -webkit-transform: scale(1) rotateX(-180deg);
-            transform: scale(1) rotateX(-180deg);
+    transform: translateZ(160px);
   }
 }

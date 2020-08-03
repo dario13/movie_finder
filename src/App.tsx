@@ -1,13 +1,14 @@
-import React from 'react';
-import './App.css';
-import 'bulma/css/bulma.css'
-import Routes from './Routes';
+import React from "react";
+import "./App.css";
+import "./mystyles.scss";
+//import "bulma/css/bulma.css";
 
+import { Routes } from "./Routes";
 
 function App() {
   return (
     <div className="App">
-      <Routes/>
+      <Routes />
     </div>
   );
 }
