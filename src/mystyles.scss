@@ -7,6 +7,7 @@ $body-background-color: #bdbdbd;
 $input-shadow: none;
 $title-size: $size-biggest;
 $card-background-color: #ecebeb;
+$icon-dimensions-large: 30rem;
 
 // Import only what you need from Bulma
 
@@ -16,5 +17,6 @@ $card-background-color: #ecebeb;
 @import "../node_modules/bulma/sass/elements/button.sass";
 @import "../node_modules/bulma/sass/elements/container.sass";
 @import "../node_modules/bulma/sass/elements/title.sass";
+@import "../node_modules/bulma/sass/elements/icon.sass";
 @import "../node_modules/bulma/sass/layout/section.sass";
 @import "../node_modules/bulma/sass/components/card.sass";

@@ -21,7 +21,6 @@ export const getMovies = async (movieName: string): Promise<movieType[]> => {
     .catch(() => {
       // handle error
       Promise.reject("Some error with the api");
-      return [];
     });
 };
 

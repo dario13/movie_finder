@@ -8,12 +8,20 @@
 }
 
 .SearchForm-wrapper {
-  display: flex;
+  display: inline-table;
   justify-content: center;
 }
 
+.centered {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  /* bring your own prefixes */
+  transform: translate(-50%, -50%);
+}
+
 .PrintResults-wrapper {
-  padding-top: 36px;
+  padding-top: 10vh;
 }
 
 .columns.is-vcentered {
@@ -22,25 +30,34 @@
   margin-right: 25vw;
 }
 
-/*
-.card {
-  color: red;
-}*/
-
-/*
-.MoviesList {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: stretch;
-  justify-content: space-between;
-  padding: 16px;
+.custom-spinner {
+  border: 1vw solid #f3f3f3;
+  border-radius: 90%;
+  border-top: 1vw solid #3498db;
+  width: 10vw;
+  height: 10vw;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 1s linear infinite;
 }
 
-.MoviesList-item {
-  margin-bottom: 24px;
-  width: 48%;
+/* Safari */
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
 }
-*/
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
 
 @media (min-width: 500px) {
   .MoviesList {
