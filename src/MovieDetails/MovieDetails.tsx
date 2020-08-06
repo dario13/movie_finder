@@ -1,8 +1,9 @@
 import React from "react";
 import { useParams, useHistory } from "react-router";
-import { getMovieDetails } from "../services/api";
+//import { getMovieDetails } from "../services/api";
 //import { createBrowserHistory } from 'history';
 import { movieFields } from "../Home/Home";
+import useFetch from "use-http";
 
 export const MovieDetails = () => {
   //const { id } = props.match.params;
@@ -10,11 +11,26 @@ export const MovieDetails = () => {
   const { goBack } = useHistory();
   const [details, setDetails] = React.useState<movieFields | null>();
 
-  React.useEffect(() => {
+  /*React.useEffect(() => {
     getMovieDetails(id)
       .then((respond: movieFields) => setDetails(respond))
       .catch(() => setDetails(null));
-  }, [id]);
+  }, [id]);*/
+
+  React.useEffect(() => {
+    initializeDetails();
+  }, []);
+
+  const apiKey = "26277d7a";
+  const baseUrl = "https://www.omdbapi.com/?apikey=";
+  const { get, response, loading, error } = useFetch(
+    `${baseUrl}${apiKey}&i=${id}`
+  );
+
+  const initializeDetails = async () => {
+    const initialDetails = await get();
+    if (response.ok) setDetails(initialDetails);
+  };
 
   const renderDetails = () => {
     return (
