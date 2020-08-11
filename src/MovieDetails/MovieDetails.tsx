@@ -2,35 +2,24 @@ import React from "react";
 import { useParams, useHistory } from "react-router";
 //import { getMovieDetails } from "../services/api";
 //import { createBrowserHistory } from 'history';
+import { useGet } from "../services/useGet";
 import { movieFields } from "../Home/Home";
-import useFetch from "use-http";
 
 export const MovieDetails = () => {
   //const { id } = props.match.params;
   const { id } = useParams();
   const { goBack } = useHistory();
-  const [details, setDetails] = React.useState<movieFields | null>();
+  const [details, setDetails] = React.useState<movieFields>();
 
-  /*React.useEffect(() => {
-    getMovieDetails(id)
-      .then((respond: movieFields) => setDetails(respond))
-      .catch(() => setDetails(null));
-  }, [id]);*/
+  const apiKey = process.env.REACT_APP_MOVIE_API_KEY;
+  const baseUrl = process.env.REACT_APP_MOVIE_API_URL;
+  const movieDetailsUrl = `${baseUrl}${apiKey}&i=${id}`;
+
+  const { loading, response, error } = useGet(movieDetailsUrl);
 
   React.useEffect(() => {
-    initializeDetails();
-  }, []);
-
-  const apiKey = "26277d7a";
-  const baseUrl = "https://www.omdbapi.com/?apikey=";
-  const { get, response, loading, error } = useFetch(
-    `${baseUrl}${apiKey}&i=${id}`
-  );
-
-  const initializeDetails = async () => {
-    const initialDetails = await get();
-    if (response.ok) setDetails(initialDetails);
-  };
+    if (response !== undefined) setDetails(response);
+  }, [response]);
 
   const renderDetails = () => {
     return (
@@ -44,7 +33,7 @@ export const MovieDetails = () => {
                   <button className="button is-info" onClick={() => goBack()}>
                     &#8617;
                   </button>
-                  <h1 className="title is-1">{details?.Title}</h1>
+                  <h1 className="title is-1">{response?.Title}</h1>
                   <figure className="image-movie">
                     <img src={details?.Poster} alt="poster"></img>
                   </figure>
@@ -89,9 +78,22 @@ export const MovieDetails = () => {
     );
   };
 
+  const renderError = () => {
+    return (
+      <div className="container">
+        <div className="columns is-vcentered">
+          <h2 className="subtitle is-2">
+            Sorry! Something went wrong &#128169;{" "}
+          </h2>
+        </div>
+      </div>
+    );
+  };
+
   const renderConditional = () => {
-    //return renderProgressBar();
-    return details === undefined ? renderProgressBar() : renderDetails();
+    if (response !== undefined) return renderDetails();
+    else if (error !== undefined) return renderError();
+    else return renderProgressBar();
   };
 
   //<button onClick={(e)=>handlerClick}>Goback</button>

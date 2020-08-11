@@ -2,10 +2,11 @@
 import axios from "axios";
 import { movieType } from "../Home/Home";
 
-const apiKey = "26277d7a";
-const baseUrl = "https://www.omdbapi.com/?apikey=";
+const apiKey = process.env.REACT_APP_MOVIE_API_KEY;
+const baseUrl = process.env.REACT_APP_MOVIE_API_URL;
 
 export const getMovies = async (movieName: string): Promise<movieType[]> => {
+  console.log(apiKey);
   return await axios
     .get(`${baseUrl}${apiKey}&s=${movieName}`)
     .then((response) => {
