@@ -59,8 +59,7 @@ export const Home: React.FC = () => {
   if (movietoSearch !== "")
     moviesListUrl = `${process.env.REACT_APP_MOVIE_URL_AND_API_KEY}&s=${movietoSearch}`;
 
-  const [loading, response, errorGet] = useGet(moviesListUrl);
-  console.log(response, errorGet);
+  const [, response, errorGet] = useGet(moviesListUrl);
 
   React.useEffect(() => {
     if (state.status === "empty" && movieSearched.length > 0) {

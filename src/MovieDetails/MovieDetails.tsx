@@ -12,7 +12,7 @@ export const MovieDetails = () => {
 
   const movieDetailsUrl = `${process.env.REACT_APP_MOVIE_URL_AND_API_KEY}&i=${id}`;
 
-  const [loading, response, error] = useGet(movieDetailsUrl);
+  const [, response, error] = useGet(movieDetailsUrl);
 
   React.useEffect(() => {
     if (response !== null) setDetails(response);
