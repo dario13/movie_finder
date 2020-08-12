@@ -3,12 +3,18 @@ import { movieType } from "./Home";
 import { Link } from "react-router-dom";
 
 export const Movie: React.FC<movieType> = (props) => {
+  const renderImage = () => {
+    return props?.Poster === "N/A"
+      ? "https://i.redd.it/valbyu8f61gz.jpg"
+      : props?.Poster;
+  };
+
   return (
     <Link to={`/movie_details/${props.imdbID}`}>
       <div className="card">
         <div className="card-image">
           <figure className="image is-4by3 image-card">
-            <img src={props.Poster} alt={props.Title}></img>
+            <img src={renderImage()} alt={props.Title}></img>
           </figure>
         </div>
         <div className="card-content">

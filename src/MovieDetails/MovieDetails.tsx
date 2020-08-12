@@ -1,6 +1,5 @@
 import React from "react";
 import { useParams, useHistory } from "react-router";
-//import { getMovieDetails } from "../services/api";
 //import { createBrowserHistory } from 'history';
 import { useGet } from "../services/useGet";
 import { movieFields } from "../Home/Home";
@@ -11,15 +10,19 @@ export const MovieDetails = () => {
   const { goBack } = useHistory();
   const [details, setDetails] = React.useState<movieFields>();
 
-  const apiKey = process.env.REACT_APP_MOVIE_API_KEY;
-  const baseUrl = process.env.REACT_APP_MOVIE_API_URL;
-  const movieDetailsUrl = `${baseUrl}${apiKey}&i=${id}`;
+  const movieDetailsUrl = `${process.env.REACT_APP_MOVIE_URL_AND_API_KEY}&i=${id}`;
 
-  const { loading, response, error } = useGet(movieDetailsUrl);
+  const [loading, response, error] = useGet(movieDetailsUrl);
 
   React.useEffect(() => {
-    if (response !== undefined) setDetails(response);
+    if (response !== null) setDetails(response);
   }, [response]);
+
+  const renderImage = () => {
+    return details?.Poster === "N/A"
+      ? "https://i.redd.it/valbyu8f61gz.jpg"
+      : details?.Poster;
+  };
 
   const renderDetails = () => {
     return (
@@ -35,7 +38,7 @@ export const MovieDetails = () => {
                   </button>
                   <h1 className="title is-1">{response?.Title}</h1>
                   <figure className="image-movie">
-                    <img src={details?.Poster} alt="poster"></img>
+                    <img src={renderImage()} alt="poster"></img>
                   </figure>
                   <h2 className="subtitle is-3">{details?.Year}</h2>
                   <div>
@@ -91,8 +94,8 @@ export const MovieDetails = () => {
   };
 
   const renderConditional = () => {
-    if (response !== undefined) return renderDetails();
-    else if (error !== undefined) return renderError();
+    if (response !== null) return renderDetails();
+    else if (error !== null) return renderError();
     else return renderProgressBar();
   };
 

@@ -1,9 +1,9 @@
 import React from "react";
 import SearchForm from "./SearchForm";
-import { getMovies } from "../services/api";
 import { MoviesList } from "./MoviesList";
 import Title from "./Title";
 import { MovieContext } from "../shared/MovieContext";
+import { useGet } from "../services/useGet";
 
 type movieId = {
   imdbID: string;
@@ -30,7 +30,7 @@ type State =
   | { status: "success"; data: movieType[] };
 
 type Action =
-  | { type: "request" }
+  | { type: "request" } //Movie indicates the movie to search
   | { type: "success"; results: movieType[] }
   | { type: "failure"; error: string };
 
@@ -50,33 +50,34 @@ function reducer(state: State, action: Action): State {
 export const Home: React.FC = () => {
   const [state, dispatch] = React.useReducer(reducer, { status: "empty" });
   //  const [moviesArray, setMoviesArray] = React.useState<movieType[]>([]);
-  const [movieName, setMovieName] = React.useState<string>("");
+  const [movietoSearch, setMovietoSearch] = React.useState<string>("");
   const { movieSearched, setMovieSearched }: any = React.useContext(
     MovieContext
   );
+
+  let moviesListUrl = "";
+  if (movietoSearch !== "")
+    moviesListUrl = `${process.env.REACT_APP_MOVIE_URL_AND_API_KEY}&s=${movietoSearch}`;
+
+  const [loading, response, errorGet] = useGet(moviesListUrl);
+  console.log(response, errorGet);
 
   React.useEffect(() => {
     if (state.status === "empty" && movieSearched.length > 0) {
       //Load the context if exists
       dispatch({ type: "success", results: movieSearched });
-    } else {
-      // Else call the api
-      if (state.status === "loading" && movieName !== "") {
-        getMovies(movieName!)
-          .then((respond) => {
-            return respond.length > 0
-              ? (dispatch({ type: "success", results: respond }),
-                setMovieSearched(respond))
-              : dispatch({ type: "failure", error: "no hay resultados" });
-          })
-          .catch((error) => dispatch({ type: "failure", error }));
-      }
-    }
-  }, [movieSearched, movieName, setMovieSearched, state]);
+    } else if (response !== null) {
+      dispatch({ type: "success", results: response.Search });
+      setMovieSearched(response.Search);
+    } else if (errorGet !== null)
+      dispatch({ type: "failure", error: errorGet });
+  }, [state.status, movieSearched, response, errorGet, setMovieSearched]);
 
   const handleSubmit = (movieEntered: string) => {
-    setMovieName(movieEntered);
-    if (movieEntered !== "") dispatch({ type: "request" });
+    if (movieEntered !== "") {
+      dispatch({ type: "request" });
+      setMovietoSearch(movieEntered);
+    }
   };
 
   const printResults = () => {
@@ -97,10 +98,12 @@ export const Home: React.FC = () => {
         );
       case "error":
         return (
-          <h2 className="subtitle is-2">
-            &#128169; There aren't results &#128078; <br />
-            Please try again!
-          </h2>
+          <div className="centered">
+            <h2 className="subtitle is-2">
+              &#128169; There aren't results &#128078; <br />
+              Please try again!
+            </h2>
+          </div>
         );
     }
   };

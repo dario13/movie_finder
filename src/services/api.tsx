@@ -6,7 +6,6 @@ const apiKey = process.env.REACT_APP_MOVIE_API_KEY;
 const baseUrl = process.env.REACT_APP_MOVIE_API_URL;
 
 export const getMovies = async (movieName: string): Promise<movieType[]> => {
-  console.log(apiKey);
   return await axios
     .get(`${baseUrl}${apiKey}&s=${movieName}`)
     .then((response) => {
